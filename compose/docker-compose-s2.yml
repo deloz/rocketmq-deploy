@@ -6,6 +6,7 @@ services:
     container_name: rmqnamesrv
     restart: always
     environment:
+      TZ: Asia/Shanghai
       JAVA_OPT_EXT: "-server -Xms256m -Xmx1024m"
     ports:
       - 9876:9876
@@ -28,6 +29,7 @@ services:
       - 10911:10911
       - 10912:10912
     environment:
+      TZ: Asia/Shanghai
       JAVA_OPT_EXT: -Duser.home=/home/rocketmq -server -Xms512m -Xmx1G -Xmn256m
       NAMESRV_ADDR: 192.168.102.50:9876;192.168.102.51:9876
     volumes:
@@ -53,6 +55,7 @@ services:
       - 11911:11911
       - 11912:11912
     environment:
+      TZ: Asia/Shanghai
       JAVA_OPT_EXT: -Duser.home=/home/rocketmq -server -Xms512m -Xmx1G -Xmn256m
       NAMESRV_ADDR: 192.168.102.50:9876;192.168.102.51:9876
     volumes:
