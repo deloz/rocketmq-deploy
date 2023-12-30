@@ -35,7 +35,7 @@ services:
       - /data/rocketmq/master/conf:/home/rocketmq/conf
       - /data/rocketmq/master/logs:/home/rocketmq/logs
       - /data/rocketmq/master/store:/home/rocketmq/store
-    command: sh mqbroker -c /home/rocketmq/conf/broker.conf
+    command: sh mqbroker -c /home/rocketmq/conf/broker.conf --enable-proxy
     logging:
       driver: "json-file"
       options:
@@ -61,7 +61,7 @@ services:
       - /data/rocketmq/salve/conf:/home/rocketmq/conf
       - /data/rocketmq/salve/logs:/home/rocketmq/logs
       - /data/rocketmq/salve/store:/home/rocketmq/store
-    command: sh mqbroker -c /home/rocketmq/conf/broker.conf
+    command: sh mqbroker -c /home/rocketmq/conf/broker.conf --enable-proxy
     logging:
       driver: "json-file"
       options:
