@@ -59,5 +59,5 @@ echo "admin=admin,1" > /data/rocketmq-dashboard/data/user.properties
 chmod -R a+rw /data/rocketmq-dashboard/data
 # 如果需要去除密码登录 删除以下 -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true"
 # 部署了多少台nameserver, 在下方的NAMESRV_ADDR=namesrv1:9876;namesrv2:9876 进行修改，将namesrv改为对应IP；多个用分号隔开
-docker run -d --restart=always --name  rmqdashboard -v /data/rocketmq-dashboard/data:/tmp/rocketmq-console/data -e "JAVA_OPTS=-Xmx256M -Xms256M -Xmn128M" -e "NAMESRV_ADDR=namesrv1:9876;namesrv2:9876" -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true" -p 8080:8080 apacherocketmq/rocketmq-dashboard
+docker run -d --restart=always --name  rmqdashboard -v /data/rocketmq-dashboard/data:/tmp/rocketmq-console/data -e "JAVA_OPTS=-Xmx256M -Xms256M -Xmn128M"  -e "TZ=Asia/Shanghai" -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true" -e "NAMESRV_ADDR=namesrv1:9876;namesrv2:9876" -p 8080:8080 apacherocketmq/rocketmq-dashboard
 ```
