@@ -1,3 +1,9 @@
+# 前置准备
+
+- 需要 docker 环境 [docker info]
+- 需要 docker-compose 环境 [docker-compose --version]
+- 在 centos7 下测试通过
+
 # 部署方式 1：推荐
 
 ```shell
@@ -41,4 +47,17 @@
 
 # 在服务器2执行
 /bin/bash rocketmq/deploy.sh /root/rocketmq/conf/s2 /root/rocketmq/compose/docker-compose-s2.yml
+```
+
+# RocketMQ 面板部署
+
+```shell
+mkdir -p /data/rocketmq-dashboard/data
+# admin=admin,1 这个为 账户名=密码,1(1代表管理员) 或者 用户名=密码（普通用户） 每行一个用户 改命令可以先创建一个默认管理员 后续可以在该文件中修改
+echo "admin=admin,1" > /data/rocketmq-dashboard/data/user.properties
+# 赋予权限 防止不必要的问题
+chmod -R a+rw /data/rocketmq-dashboard/data
+# 如果需要去除密码登录 删除以下 -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true"
+# 部署了多少台nameserver, 在下方的NAMESRV_ADDR=namesrv1:9876;namesrv2:9876 进行修改，将namesrv改为对应IP；多个用分号隔开
+docker run -d --restart=always --name  rmqdashboard -v /data/rocketmq-dashboard/data:/tmp/rocketmq-console/data -e "JAVA_OPTS=-Xmx256M -Xms256M -Xmn128M" -e "NAMESRV_ADDR=namesrv1:9876;namesrv2:9876" -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true" -p 8080:8080 apacherocketmq/rocketmq-dashboard
 ```
