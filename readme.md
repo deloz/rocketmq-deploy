@@ -18,12 +18,6 @@
 - 以下为一个示例，当您把当前文件夹拷贝至/root 下, 用户当前处在~目录下
 
 ```shell
-/bin/bash **/deploy.sh 配置文件路劲[conf/s1]绝对路径内容应于conf内部一致可做配置修改  compose部署文件[compose/docker-compose-s1.yml]应于您的服务器对应每台一个  down[可选字段，写明了就说明要停止并移除之前部署的容器]
-```
-
-- 以下为一个示例，当您把当前文件夹拷贝至/root 下, 用户当前处在~目录下
-
-```shell
 # 在服务器1执行
 /bin/bash rocketmq/auto-deploy.sh
 # 之后输入s1 然后根据提示输入 S1 ip 和 S2 ip ,之后回车操作按照提示操作即可
@@ -53,11 +47,13 @@
 
 ```shell
 mkdir -p /data/rocketmq-dashboard/data
-# admin=admin,1 这个为 账户名=密码,1(1代表管理员) 或者 用户名=密码（普通用户） 每行一个用户 改命令可以先创建一个默认管理员 后续可以在该文件中修改
+# admin=admin,1 这个为 账户名=密码,1(管理员) 或者 用户名=密码（普通用户）
+# 每行一个用户 该命令可以先创建一个默认管理员 后续可以在该文件中修改
 echo "admin=admin,1" > /data/rocketmq-dashboard/data/user.properties
 # 赋予权限 防止不必要的问题
 chmod -R a+rw /data/rocketmq-dashboard/data
 # 如果需要去除密码登录 删除以下 -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true"
-# 部署了多少台nameserver, 在下方的NAMESRV_ADDR=namesrv1:9876;namesrv2:9876 进行修改，将namesrv改为对应IP；多个用分号隔开
+# 在下方的NAMESRV_ADDR=namesrv1:9876;namesrv2:9876 需要修改成真实IP，
+# 多个namesrv用分号隔开
 docker run -d --restart=always --name  rmqdashboard -v /data/rocketmq-dashboard/data:/tmp/rocketmq-console/data -e "JAVA_OPTS=-Xmx256M -Xms256M -Xmn128M"  -e "TZ=Asia/Shanghai" -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true" -e "NAMESRV_ADDR=namesrv1:9876;namesrv2:9876" -p 8080:8080 apacherocketmq/rocketmq-dashboard
 ```
