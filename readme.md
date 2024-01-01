@@ -10,6 +10,7 @@
 /bin/bash **/auto-deploy.sh
 ```
 
+- 部署单机 输入 standalone 即代表单机部署 一主一从
 - 部署两主两从 需要两台服务器 s1 代表第一台服务器 s2 代表第二台服务器
 - 除却 IP 之外的都走 conf/{s1|s2}/\*的默认配置 如若需要更改请从改配置文件中修改
 - 配置文件会面 -m 代表主配置 -s 代表从配置
@@ -20,11 +21,11 @@
 ```shell
 # 在服务器1执行
 /bin/bash rocketmq/auto-deploy.sh
-# 之后输入s1 然后根据提示输入 S1 ip 和 S2 ip ,之后回车操作按照提示操作即可
+# 之后输入s1 然后根据提示输入 S1 ip 和 S2 ip 【特殊说明：standalone 为单机部署，只需要输入本机IP即可】,之后回车操作按照提示操作即可
 
 # 在服务器2执行
 /bin/bash rocketmq/auto-deploy.sh
-# 之后输入s2 然后根据提示输入 S2 ip 和 S1 ip ,之后回车操作按照提示操作即可
+# 之后输入s2 然后根据提示输入 S2 ip 和 S1 ip 【特殊说明：standalone 为单机部署，只需要输入本机IP即可】,之后回车操作按照提示操作即可
 ```
 
 # 部署方式 2：
@@ -36,6 +37,10 @@
 - 以下为一个示例，当您把当前文件夹拷贝至/root 下, 用户当前处在~目录下
 
 ```shell
+# 单机部署 一主一从 和下方的部署方式二选一
+/bin/bash rocketmq/deploy.sh /root/rocketmq/conf/standalone /root/rocketmq/compose/docker-compose-standalone.yml
+
+# 以下为二主二从集群部署
 # 在服务器1执行
 /bin/bash rocketmq/deploy.sh /root/rocketmq/conf/s1 /root/rocketmq/compose/docker-compose-s1.yml
 

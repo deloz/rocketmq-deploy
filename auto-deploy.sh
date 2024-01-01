@@ -22,7 +22,7 @@ else
     mkdir -p "/data/rocketmq/salve/conf"
 fi
 
-read -p " 请输入您要部署的服务器 s1是第一台服务器[用于配置s1文件夹] s2是第二台服务器[用于配置s2文件夹](s1 - 默认 | s2) " server_type
+read -p " 请输入您要部署的服务器 s1是第一台服务器[用于配置s1文件夹] s2是第二台服务器[用于配置s2文件夹] standalone是单机部署[用于配置standalone文件夹](s1 - 默认 | s2 | standalone) " server_type
 server_target=${server_type:-s1}
 echo -e "\e[33m  你选择节点的是 - ${server_target} \e[0m"
 
@@ -33,23 +33,28 @@ do
     read -p " 请输入本节点的 IP地址:" ip_local
     if [ "${ip_local}" != "" ]; then
         echo -e "\e[33m  本节点IP地址 - ${ip_local} \e[0m"
-        read -p " 请输入其他节点的 IP地址:" ip_other
-        if [ "${ip_other}" != "" ]; then
-            echo -e "\e[33m  其他节点IP地址 - ${ip_other} \e[0m"
-            read -p "请确认 本节点IP - [${ip_local}] 其他节点IP - [${ip_other}] (yes - 默认 | no - 重新输入 | exit - 退出部署): " ip_confirm
-            case ${ip_confirm:-yes} in
-            'yes')
-                event_loop=false
-                ;;
-            'exit')
-                exit
-                ;;
-            *)
-                ;;
-            esac
+        # 非单机节点需要配置另外一个IP
+        if [ "${server_target}" != "standalone" ]; then
+            read -p " 请输入其他节点的 IP地址:" ip_other
+            if [ "${ip_other}" != "" ]; then
+                echo -e "\e[33m  其他节点IP地址 - ${ip_other} \e[0m"
+                read -p "请确认 本节点IP - [${ip_local}] 其他节点IP - [${ip_other}] (yes - 默认 | no - 重新输入 | exit - 退出部署): " ip_confirm
+                case ${ip_confirm:-yes} in
+                'yes')
+                    event_loop=false
+                    ;;
+                'exit')
+                    exit
+                    ;;
+                *)
+                    ;;
+                esac
+            else
+                echo -e "\e[31m  其他节点的 IP地址不能为空， 请重新输入 \e[0m"
+            fi
         else
-            echo -e "\e[31m  其他节点的 IP地址不能为空， 请重新输入 \e[0m"
-        fi
+            event_loop=false
+        fi    
     else
         echo -e "\e[31m  本节点IP地址不能为空， 请重新输入 \e[0m"
     fi
@@ -81,10 +86,14 @@ else
 fi
 
 # 确认docker compose 部署文件存在
+name_srv="${ip_local}:9876"
+if [ "${server_target}" != "standalone" ]; then
+    name_srv="${ip_local}:9876;${ip_other}:9876"
+fi
 compose_file="${root_dir}/compose/docker-compose-${server_target}.yml"
 if [ -f ${compose_file} ]; then
     echo -e "\e[33m docker compose配置文件 - ${compose_file}... \e[0m"
-    sed -i "s/NAMESRV_ADDR: .*/NAMESRV_ADDR: ${ip_local}:9876;${ip_other}:9876/g" ${compose_file}
+    sed -i "s/NAMESRV_ADDR: .*/NAMESRV_ADDR: ${name_srv}/g" ${compose_file}
     cat  ${compose_file}
     echo -e "\n"
 else
