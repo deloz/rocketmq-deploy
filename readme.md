@@ -54,7 +54,7 @@
 mkdir -p /data/rocketmq-dashboard/data
 # admin=admin,1 这个为 账户名=密码,1(管理员) 或者 用户名=密码（普通用户）
 # 每行一个用户 该命令可以先创建一个默认管理员 后续可以在该文件中修改
-echo "admin=admin,1" > /data/rocketmq-dashboard/data/user.properties
+echo "admin=admin,1" > /data/rocketmq-dashboard/data/users.properties
 # 赋予权限 防止不必要的问题
 chmod -R a+rw /data/rocketmq-dashboard/data
 # 如果需要去除密码登录 删除以下 -e "ROCKETMQ_CONFIG_LOGIN_REQUIRED=true"
