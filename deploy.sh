@@ -24,44 +24,48 @@ else
 fi
 
 # 查看文件是否存在 不存在进行创建
-if [ -e "/data/rocketmq/" ]; then
-    echo -e "\e[33m /data/rocketmq 文件存储已经存在，跳过创建.... \e[0m"
+if [ -e "/www/wwwroot/rocketmq/" ]; then
+    echo -e "\e[33m /www/wwwroot/rocketmq 文件存储已经存在，跳过创建.... \e[0m"
 else
-    mkdir -p /data/rocketmq/namesrv/logs
-    chmod a+rw /data/rocketmq/namesrv/logs
-    mkdir -p /data/rocketmq/master/logs
-    chmod a+rw /data/rocketmq/master/logs
-    mkdir -p /data/rocketmq/master/store
-    chmod a+rw /data/rocketmq/master/store
-    mkdir -p /data/rocketmq/master/conf
-    mkdir -p /data/rocketmq/salve/logs
-    chmod a+rw /data/rocketmq/salve/logs
-    mkdir -p /data/rocketmq/salve/store
-    chmod a+rw /data/rocketmq/salve/store
-    mkdir -p "/data/rocketmq/salve/conf"
+    mkdir -p /www/wwwroot/rocketmq/namesrv/logs
+    chmod a+rw /www/wwwroot/rocketmq/namesrv/logs
+    mkdir -p /www/wwwroot/rocketmq/master/logs
+    chmod a+rw /www/wwwroot/rocketmq/master/logs
+    mkdir -p /www/wwwroot/rocketmq/master/store
+    chmod a+rw /www/wwwroot/rocketmq/master/store
+    mkdir -p /www/wwwroot/rocketmq/master/conf
+    mkdir -p /www/wwwroot/rocketmq/salve/logs
+    chmod a+rw /www/wwwroot/rocketmq/salve/logs
+    mkdir -p /www/wwwroot/rocketmq/salve/store
+    chmod a+rw /www/wwwroot/rocketmq/salve/store
+    mkdir -p "/www/wwwroot/rocketmq/salve/conf"
 fi
 
 # 将配置文件进行覆盖
 if [ -f "${conf_dir}broker-m.conf" ]; then
-    cp -f ${conf_dir}broker-m.conf /data/rocketmq/master/conf/broker.conf
+    cp -f ${conf_dir}broker-m.conf /www/wwwroot/rocketmq/master/conf/broker.conf
+    cp -f ${conf_dir}rmq-proxy-m.json /www/wwwroot/rocketmq/master/conf/rmq-proxy.json
 elif [ -f "${conf_dir}/broker-m.conf" ]; then
-    cp -f ${conf_dir}/broker-m.conf /data/rocketmq/master/conf/broker.conf
+    cp -f ${conf_dir}/broker-m.conf /www/wwwroot/rocketmq/master/conf/broker.conf
+    cp -f ${conf_dir}/rmq-proxy-m.json /www/wwwroot/rocketmq/master/conf/rmq-proxy.json
 else
     echo -e "\e[33m 主broker配置文件不存在 \e[0m"
     exit
 fi
 
 if [ -f "${conf_dir}broker-s.conf" ]; then
-    cp -f ${conf_dir}broker-s.conf /data/rocketmq/salve/conf/broker.conf
+    cp -f ${conf_dir}broker-s.conf /www/wwwroot/rocketmq/salve/conf/broker.conf
+    cp -f ${conf_dir}rmq-proxy-s.json /www/wwwroot/rocketmq/salve/conf/rmq-proxy.json
 elif [ -f "${conf_dir}/broker-s.conf" ]; then
-    cp -f ${conf_dir}/broker-s.conf /data/rocketmq/salve/conf/broker.conf
+    cp -f ${conf_dir}/broker-s.conf /www/wwwroot/rocketmq/salve/conf/broker.conf
+    cp -f ${conf_dir}/rmq-proxy-s.json /www/wwwroot/rocketmq/salve/conf/rmq-proxy.json
 else
     echo -e "\e[33m 从broker配置文件不存在 \e[0m"
     exit
 fi
 
-ls /data/rocketmq/master/conf/
-ls /data/rocketmq/salve/conf/
+ls /www/wwwroot/rocketmq/master/conf/
+ls /www/wwwroot/rocketmq/salve/conf/
 
 # 开始部署
 # 如果需要先停止并销毁之前部署的容器

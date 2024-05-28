@@ -2,7 +2,7 @@ version: "3.8"
 services:
   # border 注册中心
   namesrv:
-    image: apache/rocketmq:5.1.4
+    image: apache/rocketmq:5.2.0
     container_name: rmqnamesrv
     restart: always
     environment:
@@ -11,7 +11,7 @@ services:
     ports:
       - 9876:9876
     volumes:
-      - /data/rocketmq/namesrv/logs:/home/rocketmq/logs
+      - /www/wwwroot/rocketmq/namesrv/logs:/home/rocketmq/logs
     command: sh mqnamesrv
     logging:
       driver: "json-file"
@@ -21,7 +21,7 @@ services:
 
   # broker 主节点
   broker-m:
-    image: apache/rocketmq:5.1.4
+    image: apache/rocketmq:5.2.0
     container_name: rmqbroker-m
     restart: always
     ports:
@@ -33,9 +33,9 @@ services:
       JAVA_OPT_EXT: -Duser.home=/home/rocketmq -server -Xms512m -Xmx1G -Xmn256m
       NAMESRV_ADDR: 192.168.102.50:9876;192.168.102.51:9876
     volumes:
-      - /data/rocketmq/master/logs:/home/rocketmq/logs
-      - /data/rocketmq/master/store:/home/rocketmq/store
-      - /data/rocketmq/master/conf:/home/rocketmq/conf
+      - /www/wwwroot/rocketmq/master/logs:/home/rocketmq/logs
+      - /www/wwwroot/rocketmq/master/store:/home/rocketmq/store
+      - /www/wwwroot/rocketmq/master/conf:/home/rocketmq/conf
     command: sh mqbroker -c /home/rocketmq/conf/broker.conf --enable-proxy
     logging:
       driver: "json-file"
@@ -47,7 +47,7 @@ services:
 
   # broker 从节点
   broker-s:
-    image: apache/rocketmq:5.1.4
+    image: apache/rocketmq:5.2.0
     container_name: rmqbroker-s
     restart: always
     ports:
@@ -59,9 +59,9 @@ services:
       JAVA_OPT_EXT: -Duser.home=/home/rocketmq -server -Xms512m -Xmx1G -Xmn256m
       NAMESRV_ADDR: 192.168.102.50:9876;192.168.102.51:9876
     volumes:
-      - /data/rocketmq/salve/logs:/home/rocketmq/logs
-      - /data/rocketmq/salve/store:/home/rocketmq/store
-      - /data/rocketmq/salve/conf:/home/rocketmq/conf
+      - /www/wwwroot/rocketmq/salve/logs:/home/rocketmq/logs
+      - /www/wwwroot/rocketmq/salve/store:/home/rocketmq/store
+      - /www/wwwroot/rocketmq/salve/conf:/home/rocketmq/conf
     command: sh mqbroker -c /home/rocketmq/conf/broker.conf --enable-proxy
     logging:
       driver: "json-file"

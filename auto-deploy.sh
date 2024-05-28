@@ -5,21 +5,21 @@ echo -e "\e[33m  此部署方式为RocketMQ双主机双主从异步同步盘自�
 root_dir=$(dirname ${0})
 
 # 查看文件是否存在 不存在进行创建
-if [ -e "/data/rocketmq/" ]; then
-    echo -e "\e[33m /data/rocketmq 文件存储已经存在，跳过创建.... \e[0m"
+if [ -e "/www/wwwroot/rocketmq/" ]; then
+    echo -e "\e[33m /www/wwwroot/rocketmq 文件存储已经存在，跳过创建.... \e[0m"
 else
-    mkdir -p /data/rocketmq/namesrv/logs
-    chmod a+rw /data/rocketmq/namesrv/logs
-    mkdir -p /data/rocketmq/master/logs
-    chmod a+rw /data/rocketmq/master/logs
-    mkdir -p /data/rocketmq/master/store
-    chmod a+rw /data/rocketmq/master/store
-    mkdir -p /data/rocketmq/master/conf
-    mkdir -p /data/rocketmq/salve/logs
-    chmod a+rw /data/rocketmq/salve/logs
-    mkdir -p /data/rocketmq/salve/store
-    chmod a+rw /data/rocketmq/salve/store
-    mkdir -p "/data/rocketmq/salve/conf"
+    mkdir -p /www/wwwroot/rocketmq/namesrv/logs
+    chmod a+rw /www/wwwroot/rocketmq/namesrv/logs
+    mkdir -p /www/wwwroot/rocketmq/master/logs
+    chmod a+rw /www/wwwroot/rocketmq/master/logs
+    mkdir -p /www/wwwroot/rocketmq/master/store
+    chmod a+rw /www/wwwroot/rocketmq/master/store
+    mkdir -p /www/wwwroot/rocketmq/master/conf
+    mkdir -p /www/wwwroot/rocketmq/salve/logs
+    chmod a+rw /www/wwwroot/rocketmq/salve/logs
+    mkdir -p /www/wwwroot/rocketmq/salve/store
+    chmod a+rw /www/wwwroot/rocketmq/salve/store
+    mkdir -p "/www/wwwroot/rocketmq/salve/conf"
 fi
 
 read -p " 请输入您要部署的服务器 s1是第一台服务器[用于配置s1文件夹] s2是第二台服务器[用于配置s2文件夹] standalone是单机部署[用于配置standalone文件夹](s1 - 默认 | s2 | standalone) " server_type
